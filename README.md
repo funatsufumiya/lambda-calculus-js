@@ -29,9 +29,9 @@ console.log( f_a.solve().toString() ) // a
 
 When the `expr` is solved, arguments and variables are temporarily converted to g1, g2, g3...gN.
 
-- `expr.solve()` returns the solved expression that has the restored names (like λx.λy.x). These may be wrong names because of some reasons. 
+- `expr.solve()` returns the solved expression that has the restored names like `λx.λy.x`. These may be wrong naming for some reasons.
 
-- `expr.solve0()` return the solved expression that has temporary names (like λg1.λg2.g1). These are valid names.
+- `expr.solve0()` return the solved expression that has temporary names like `λg1.λg2.g1`. These nanes are always correct names, but they are difficult to read.
 
 ### Rename v, L and _
 
