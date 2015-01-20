@@ -25,6 +25,14 @@ var f_a = _(f, v('a')) // (\x.x) a
 console.log( f_a.solve().toString() ) // a
 ```
 
+### Differences between expr.solve() and expr.solve0()
+
+When the `expr` is solved, arguments and variables are temporarily converted to g1, g2, g3...gN.
+
+- `expr.solve()` returns the solved expression that has the restored names (like λx.λy.x). These may be wrong names because of some reasons. 
+
+- `expr.solve0()` return the solved expression that has temporary names (like λg1.λg2.g1). These are valid names.
+
 ### Rename v, L and _
 
 ```html
@@ -39,6 +47,22 @@ console.log( f_a.solve().toString() ) // a
 <script>
   console.log( lambda('x',val('x')) );
 </script>
+```
+
+## Samples
+
+### cond, true, false
+
+```javascript
+var _true = L('x',L('y',v('x'))); // λxy.x
+var _false = L('x',L('y',v('y'))); // λxy.y
+var cond = L('x',L('y',L('z',_(_(v('x'), v('y')),v('z'))))); // λxyz.xyz
+
+var cond_t_t_f = _(_(_(cond,_true),_true),_false).solve(); // (cond true true false)
+var cond_f_t_f = _(_(_(cond,_false),_true),_false).solve(); // (cond false true false)
+
+console.log("(cond true true false) = " + cond_t_t_f.toString()); // (λx.(λy.x))
+console.log("(cond false true false) = " + cond_f_t_f.toString()); // (λx.(λy.y))
 ```
 
 ## License
