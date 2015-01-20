@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Samples</title>
+  <script src="lambda-calculus.js"></script>
+  <script>
+  function puts(s){
+    var s = (typeof s == 'undefined')? '': s.split("\n").join("<br/>");
+    document.write(s+"<br/>");
+  }
+
+  // ============================
+
+  var xx = L('x',v('x')) // λx.x
+  var xx_a = _(xx, v('a')).solve() // (λx.x) a
+  var xx_b = _(xx, v('b')).solve() // (λx.x) b
+
+  var xyx = L('x',L('y',v('x'))); // λxy.x
+  var xyx_ab = _(_(xyx, v('a')),v('b')).solve(); // (λxy.x) a b
+  var xyx_ba = _(_(xyx, v('b')),v('a')).solve(); // (λxy.x) b a
+
+  puts("(λx.x) a = " + xx_a.toString());
+  puts("(λx.x) b = " + xx_b.toString());
+  puts("(λxy.x) a b = " + xyx_ab.toString());
+  puts("(λxy.x) b a = " + xyx_ba.toString());
+  puts()
+
+  puts(" ========================== \n");
+
+  var _true = L('x',L('y',v('x'))); // λxy.x
+  var _false = L('x',L('y',v('y'))); // λxy.y
+  var cond = L('x',L('y',L('z',_(_(v('x'), v('y')),v('z'))))); // λxyz.xyz
+
+  puts("true = " + _true.toString());
+  puts("false = " + _false.toString());
+  puts("cond = " + cond.toString());
+  puts();
+
+  var cond_t_t_f = _(_(_(cond,_true),_true),_false).solve(); // (cond true true false)
+  var cond_f_t_f = _(_(_(cond,_false),_true),_false).solve(); // (cond false true false)
+
+  puts("(cond true true false) = " + cond_t_t_f.toString());
+  puts("(cond false true false) = " + cond_f_t_f.toString());
+  puts();
+
+  puts(" ========================== \n");
+
+  var _0 = L('f',L('x',v('x'))); // λfx.x
+  var _1 = L('f',L('x',_(v('f'),v('x')))); // λfx.fx
+  var _2 = L('f',L('x',_(v('f'),_(v('f'),v('x'))))); // λfx.f(fx)
+  var _3 = L('f',L('x',_(v('f'),_(v('f'),_(v('f'),v('x')))))); // λfx.f(f(fx))
+
+  puts("0 = " + _0.toString());
+  puts("1 = " + _1.toString());
+  puts("2 = " + _2.toString());
+  puts("3 = " + _3.toString());
+  puts();
+
+  var succ = L('n',L('f',L('x',_(v('f'),_(_(v('n'),v('f')),v('x')))))); // λnfx.f(nfx)
+  var succ_0 = _(succ, _0).solve(); // (succ 0)
+  var succ_1 = _(succ, _1).solve(); // (succ 1)
+  var succ_succ_1 = _(succ, _(succ, _1)).solve(); // (succ (succ 1))
+
+  puts("(succ 0) = " + succ_0.toString());
+  puts("(succ 1) = " + succ_1.toString());
+  puts("(succ (succ 1)) = " + succ_succ_1.toString());
+  puts();
+
+  var plus = L('m',L('n',L('f',L('x',_(_(v('m'),v('f')),_(_(v('n'),v('f')),v('x'))))))) // λmnfx.mf(nfx)
+  var plus_1_2 = _(_(plus, _1), _2).solve(); // (plus 1 2)
+  var plus_2_3 = _(_(plus, _2), _3).solve(); // (plus 2 3)
+
+  puts("(plus 1 2) = " + plus_1_2.toString());
+  puts("(plus 2 3) = " + plus_2_3.toString());
+  puts();
+
+  puts(" ========================== \n");
+
+  var cons = L('x',L('y',L('f',_(_(v('f'),v('x')),v('y'))))); // λxyf.fxy
+  var head = L('c',_(v('c'), _true)); // λc.(c true)
+  var tail = L('c',_(v('c'), _false)); // λc.(c false)
+
+  puts("cons = " + cons.toString());
+  puts("head = " + head.toString());
+  puts("tail = " + tail.toString());
+  puts();
+
+  var head_cons_a_b = _(head, _(_(cons, v('a')),v('b'))).solve(); // (head (cons a b))
+  var tail_cons_a_b = _(tail, _(_(cons, v('a')),v('b'))).solve(); // (tail (cons a b))
+
+  puts("(head (cons a b)) = " + head_cons_a_b.toString());
+  puts("(tail (cons a b)) = " + tail_cons_a_b.toString());
+
+  </script>
+</head>
+<body>
+  
+</body>
+</html>
