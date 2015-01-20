@@ -51,18 +51,35 @@ When the `expr` is solved, arguments and variables are temporarily converted to 
 
 ## Samples
 
-### cond, true, false
+### If, True and False
 
 ```javascript
 var _true = L('x',L('y',v('x'))); // λxy.x
 var _false = L('x',L('y',v('y'))); // λxy.y
-var cond = L('x',L('y',L('z',_(_(v('x'), v('y')),v('z'))))); // λxyz.xyz
+var _if = L('x',L('y',L('z',_(_(v('x'), v('y')),v('z'))))); // λxyz.xyz
 
-var cond_t_t_f = _(_(_(cond,_true),_true),_false).solve(); // (cond true true false)
-var cond_f_t_f = _(_(_(cond,_false),_true),_false).solve(); // (cond false true false)
+var if_t_t_f = _(_(_(_if,_true),_true),_false).solve(); // (if true true false)
+var if_f_t_f = _(_(_(_if,_false),_true),_false).solve(); // (if false true false)
 
-console.log("(cond true true false) = " + cond_t_t_f.toString()); // (λx.(λy.x))
-console.log("(cond false true false) = " + cond_f_t_f.toString()); // (λx.(λy.y))
+console.log("(if true true false) = " + if_t_t_f.toString()); // (λx.(λy.x))
+console.log("(if false true false) = " + if_f_t_f.toString()); // (λx.(λy.y))
+```
+
+### Church Numbers
+
+```javascript
+var _0 = L('f',L('x',v('x'))); // λfx.x
+var _1 = L('f',L('x',_(v('f'),v('x')))); // λfx.fx
+var _2 = L('f',L('x',_(v('f'),_(v('f'),v('x'))))); // λfx.f(fx)
+var _3 = L('f',L('x',_(v('f'),_(v('f'),_(v('f'),v('x')))))); // λfx.f(f(fx))
+
+var succ = L('n',L('f',L('x',_(v('f'),_(_(v('n'),v('f')),v('x')))))); // λnfx.f(nfx)
+
+var succ_0 = _(succ, _0).solve(); // (succ 0)
+var succ_1 = _(succ, _1).solve(); // (succ 1)
+
+console.log("(succ 0) = " + succ_0); // λfx.fx (= 1)
+console.log("(succ 1) = " + succ_1); // λfx.f(fx) (= 2)
 ```
 
 ## License
