@@ -12,7 +12,7 @@
   }
 
   /* return Expr */
-  function identifyArgs(e, args, aliases){ // Avoid duplicated args
+  function identifyArgs(e, args, aliases){ // Avoid duplicate args
     if(e instanceof Apply){
       return new Apply(
         identifyArgs(e.e1, args, aliases),
@@ -159,15 +159,11 @@
     var c = LC_CONFIG;
     G[c['lambda']] = L;
     G[c['apply']] = _;
-    G[c['var']] = v;
+    G[c['variable']] = v;
   }else{
     G.L = L;
     G._ = _;
     G.v = v;
   }
-
-  // For Debug
-  G.isSolved = isSolved;
-  G.solveStep = solveStep;
 
 })(this);
