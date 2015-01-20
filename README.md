@@ -31,7 +31,7 @@ When the `expr` is solved, arguments and variables are temporarily converted to 
 
 - `expr.solve()` returns the solved expression that has the restored names like `λx.λy.x`. These may be wrong naming for some reasons.
 
-- `expr.solve0()` return the solved expression that has temporary names like `λg1.λg2.g1`. These nanes are correct, but they are difficult to read.
+- `expr.solve0()` returns the solved expression that has temporary names like `λg1.λg2.g1`. These nanes are correct, but they are difficult to read.
 
 ### Rename v, L and _
 
