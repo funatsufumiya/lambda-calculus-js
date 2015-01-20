@@ -61,9 +61,9 @@ var _if = L('x',L('y',L('z',_(_(v('x'), v('y')),v('z'))))); // λxyz.xyz
 var if_t_t_f = _(_(_(_if,_true),_true),_false).solve(); // (if true true false)
 var if_f_t_f = _(_(_(_if,_false),_true),_false).solve(); // (if false true false)
 
-console.log("(if true true false) = " + if_t_t_f.toString()); // (λx.(λy.x))
-console.log("(if false true false) = " + if_f_t_f.toString()); // (λx.(λy.y))
-```
+console.log("(if true true false) = " + if_t_t_f.toString()); // (λx.(λy.x)) (= true)
+console.log("(if false true false) = " + if_f_t_f.toString()); // (λx.(λy.y)) (= false)
+``` 
 
 ### Church Numbers
 
